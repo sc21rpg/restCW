@@ -73,7 +73,9 @@ def stories_view(request):
             stories = stories.filter(region=story_region)
         if story_date != '*':
             stories = stories.filter(date__gte=story_date)
-
+            
+        if not stories.exists():
+            return HttpResponse('No stories found with the provided filters.', status=404)
         # Serialize the stories to JSON
         story_list = [
             {
